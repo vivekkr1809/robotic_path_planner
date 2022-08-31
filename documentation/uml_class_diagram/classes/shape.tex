@@ -1,0 +1,17 @@
+\umlclass[x=\getvalue{Xcoord}, y=\getvalue{Ycoord},
+				type=abstract,
+				\relstr,
+				anchor = \getvalue{aligninfo},
+				width = \getvalue{widthinfo}]
+				{Shape}
+% Data
+{
++ \textit{dim: int} \\
++ \textit{shape$\_$name: string}
+}
+% Methods
+{
++ \textit{\dunder{init}\dunder()}\\
++ \textit{inside(Point pt)} \\
++ \textit{intersects(Point pt1, Point pt2)}
+}

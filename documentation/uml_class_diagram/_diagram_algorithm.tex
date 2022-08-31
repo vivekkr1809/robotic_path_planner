@@ -1,0 +1,62 @@
+%% Algorithm Classes %%
+
+%Solver
+\setvalue{Xcoord=10.}
+\setvalue{Ycoord=-13.}
+\setvalue{aligninfo=north}
+\setvalue{widthinfo=4cm}
+\renewcommand{\relstr}{}
+\input{./classes/solver.tex}
+
+
+%RRT (ABSTRACT)
+\setvalue{Xcoord=10.}
+\setvalue{Ycoord=-21.}
+\setvalue{aligninfo=north}
+\setvalue{widthinfo=4cm}
+\renewcommand{\relstr}{}
+\input{./classes/RRTAbstract.tex}
+\umlcompo[mult1 = 1, mult2 = 1]{Solver}{RRT}
+
+%Vertex
+\setvalue{aligninfo=north}
+\setvalue{widthinfo=6.5cm}
+\renewcommand{\relstr}{below left=-2.5cm and 8 cm of RRT.north}
+\input{./classes/vertex.tex}
+\umlaggreg[anchors= 180 and 0, geometry=-|-]{RRT}{Vertex}
+
+%Edge
+\setvalue{aligninfo=north}
+\setvalue{widthinfo=6.5cm}
+\renewcommand{\relstr}{below left=2.5cm and 8 cm of RRT.north}
+\input{./classes/edge.tex}
+\umlaggreg[anchors= 180 and 0, geometry=-|-]{RRT}{Edge}
+
+%RRT Regular
+\setvalue{aligninfo=north}
+\setvalue{widthinfo=6cm}
+\renewcommand{\relstr}{below left=5cm and 0 cm of RRT.north}
+\input{./classes/RRTRegular.tex}
+\umlinherit[anchors= 90 and -90, geometry=|-|]{RRTRegular}{RRT}
+
+%RRT Regular Heuristic
+\setvalue{aligninfo=north}
+\setvalue{widthinfo=6cm}
+\renewcommand{\relstr}{below left=11cm and 0 cm of RRT.north}
+\input{./classes/RRTRegularHeuristic.tex}
+\umlinherit[anchors= 90 and -90, geometry=|-|]{RRTRegularHeuristic}{RRTRegular}
+
+%RRT Star
+\setvalue{aligninfo=north}
+\setvalue{widthinfo=6cm}
+\renewcommand{\relstr}{below left=5cm and -8 cm of RRT.north}
+\input{./classes/RRTStar.tex}
+\umlinherit[anchors= 90 and -90, geometry=|-|]{RRTStar}{RRT}
+
+%RRT Star FN
+\setvalue{aligninfo=north}
+\setvalue{widthinfo=6cm}
+\renewcommand{\relstr}{below left=11cm and -8 cm of RRT.north}
+\input{./classes/RRTStarFN.tex}
+\umlinherit[anchors= 90 and -90, geometry=|-|]{RRTStarFN}{RRTStar}
+

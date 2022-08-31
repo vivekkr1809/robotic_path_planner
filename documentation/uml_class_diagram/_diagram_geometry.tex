@@ -1,0 +1,30 @@
+%% Geometry Classes %%
+
+%Shape (ABSTRACT)
+\setvalue{Xcoord=7.}
+\setvalue{Ycoord=2}
+\setvalue{aligninfo=north}
+\setvalue{widthinfo=4cm}
+\renewcommand{\relstr}{}
+\input{./classes/shape.tex}
+
+%Rectangle
+\setvalue{aligninfo=north}
+\setvalue{widthinfo=4cm}
+\renewcommand{\relstr}{below left=0cm and 7 cm of Shape.north}
+\input{./classes/rectangle.tex}
+\umlinherit[anchors= 0 and 180, geometry=-|-]{Rectangle}{Shape}
+
+%Circle
+\setvalue{aligninfo=north}
+\setvalue{widthinfo=4cm}
+\renewcommand{\relstr}{below left=4cm and 7 cm of Shape.north}
+\input{./classes/circle.tex}
+\umlinherit[anchors= 0 and 180, geometry=-|-]{Circle}{Shape}
+
+%Freeform
+\setvalue{aligninfo=north}
+\setvalue{widthinfo=4cm}
+\renewcommand{\relstr}{below left=8cm and 7 cm of Shape.north}
+\input{./classes/freeform.tex}
+\umlinherit[anchors= 0 and 180, geometry=-|-]{Freeform}{Shape}

@@ -1,0 +1,15 @@
+\umlclass[x=\getvalue{Xcoord}, y=\getvalue{Ycoord},
+				\relstr,
+				anchor=\getvalue{aligninfo},
+				width = \getvalue{widthinfo}]
+				{OutputText}
+% Data
+{
++ output$\_$file: string \\
+}
+% Methods
+{
++ \dunder{init}\dunder () \\
++ format$\_$data(Solver) : void\\
++ write$\_$output() : void
+}

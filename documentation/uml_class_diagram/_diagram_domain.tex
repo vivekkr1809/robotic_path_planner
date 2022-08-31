@@ -1,0 +1,33 @@
+%% Domain Classes %%
+
+%Domain
+\setvalue{Xcoord=13.}
+\setvalue{Ycoord=-5.}
+\setvalue{aligninfo=north}
+\setvalue{widthinfo=4cm}
+\renewcommand{\relstr}{}
+\input{./classes/domain.tex}
+
+%Obstacles
+\setvalue{aligninfo=north}
+\setvalue{widthinfo=5cm}
+\renewcommand{\relstr}{below left=-2cm and 6 cm of Domain.north}
+\input{./classes/obstacle.tex}
+\umlaggreg[anchors= 180 and 0, geometry=-|-]{Domain}{Obstacle}
+
+%Origin
+\setvalue{aligninfo=north}
+\setvalue{widthinfo=5cm}
+\renewcommand{\relstr}{below left=1cm and 6 cm of Domain.north}
+\input{./classes/origin.tex}
+\umlaggreg[anchors= 180 and 0, geometry=-|-]{Domain}{Origin}
+
+%Goal
+\setvalue{aligninfo=north}
+\setvalue{widthinfo=5cm}
+\renewcommand{\relstr}{below left=4cm and 6 cm of Domain.north}
+\input{./classes/goal.tex}
+\umlaggreg[anchors= 180 and 0, geometry=-|-]{Domain}{Goal}
+
+
+

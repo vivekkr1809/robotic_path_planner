@@ -1,0 +1,40 @@
+% This is the main file for the ulm class diagram for the robotic path planning project
+\documentclass[10pt]{article}
+\input{packages.tex}
+\input{short_notations.tex}
+\title{UML Class Diagram for Robotic Path Planning}
+\author{Bruun, E. \and Flores, J. \and Kumar, V.}
+
+\declare{}
+\newcommand{\relstr}{}
+
+\begin{document}
+\maketitle
+
+\begin{tikzpicture}
+\begin{umlpackage}{RRT}
+
+%% Input and Parameter Classes %%
+\input{_diagram_input.tex}
+
+%% Geometry Classes %%
+\input{_diagram_geometry.tex}
+
+%% Domain Classes %%
+\input{_diagram_domain.tex}
+
+%% Algorithm Classes %%
+\input{_diagram_algorithm.tex}
+\umlaggreg[anchors= 90 and -90, geometry=|-|]{Solver}{Domain}
+
+
+%% Output Classes %%
+\input{_diagram_output.tex}
+\umlaggreg[anchors= 180 and 0, geometry=-|-]{OutputPlot}{Solver}
+\umlaggreg[anchors= 180 and 0, geometry=-|-]{OutputText}{Solver}
+
+\end{umlpackage}
+
+\end{tikzpicture}
+
+\end{document}

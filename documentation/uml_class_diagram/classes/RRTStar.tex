@@ -1,0 +1,22 @@
+\umlclass[x=\getvalue{Xcoord}, y=\getvalue{Ycoord},
+				\relstr,
+				anchor=\getvalue{aligninfo},
+				width = \getvalue{widthinfo}]
+				{RRTStar}
+% Data
+{
++ search$\_$radius : float\\
++ neighbour$\_$cost$\_$list : [int, float, float]\\
+}
+% Methods
+{
+ + step() : void \\
+ 
+ ------\\
+ 
+ + find$\_$nearest$\_$neightbours(self) : void\\
+ + neighbour$\_$costs(self) : void \\ %Get total branch costs for neighbours, and also the branch costs to new point
+ + cheapest$\_$total$\_$cost(self) : int \\
+ + rewire$\_$tree() : void \\
+
+}

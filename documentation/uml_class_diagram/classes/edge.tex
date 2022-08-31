@@ -1,0 +1,16 @@
+\umlclass[x=\getvalue{Xcoord}, y=\getvalue{Ycoord},
+				\relstr,
+				anchor=\getvalue{aligninfo},
+				width = \getvalue{widthinfo}]
+				{Edge}
+% Data
+{
+	start : Vertex \\
+	end : Vertex
+}
+% Methods
+{
++ \dunder{init}\dunder (start, end) \\
++ edge$\_$cost(self) : float\\
++ tree$\_$cost(self) : float
+}

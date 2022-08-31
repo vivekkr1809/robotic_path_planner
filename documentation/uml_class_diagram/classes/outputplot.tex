@@ -1,0 +1,25 @@
+\umlclass[x=\getvalue{Xcoord}, y=\getvalue{Ycoord},
+				\relstr,
+				anchor=\getvalue{aligninfo},
+				width = \getvalue{widthinfo}]
+				{OutputPlot}
+% Data
+{
++ filename: string \\
++ animate: bool \\
++ dimension: int \\
++ data: list \\ % lists scatter and objects to plot
++ layout: (title: string, showlegend: bool) \\  
++ fig: (data, layout) 
+}
+% Methods
+{
++ \dunder{init}\dunder (self, filename: string) \\ % Initialize Plot class with filename 
+------\\
++ plot\_vertex (Solver) : void \\
++ plot\_path (Solver) : void \\
++ plot\_obstacles (Domain) : void \\
++ plot\_start (Domain) : void \\
++ plot\_goal (Domain) : void \\
++ draw (animate) : void % Plot to the file specified  
+}

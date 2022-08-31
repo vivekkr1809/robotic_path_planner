@@ -1,0 +1,17 @@
+\umlclass[x=\getvalue{Xcoord}, y=\getvalue{Ycoord},
+				\relstr,
+				anchor=\getvalue{aligninfo},
+				width = \getvalue{widthinfo}]
+				{Vertex}
+% Data
+{
+	coords : list float\\
+	nearest$\_$vertex : int
+}
+% Methods
+{
++ \dunder{init}\dunder (self) \\
++ random(Domain) : list float \\
++ nearest(Solver) : int\\ % Nearest point in existing vertex list
++ extend(ParamsRRT) : list float \\% Create new vertex based on max step size
+}

@@ -1,0 +1,21 @@
+{
+	"Origin_Goal":{
+		"origin" : [-0.9,-0.9],
+		"goal" : [0.9,0.9],
+		"tol" : 0.1
+		},
+	"Domain_Rectangle":{
+		"shape" : "rectangle",
+		"vertices" : [[-1.0,-1.0],[1.0, -1.0], [1.0, 1.0], [-1.0, 1.0]]
+		},
+	"Domain_Circle":{
+		"shape" : "circle",
+		"radius" : 1.0,
+		"center" : [0.0,0.0]
+		},
+	"Obstacle":{
+		"shape" : "circle",
+		"radius" : 0.1,
+		"center" : [0.0,0.0]
+		}
+}

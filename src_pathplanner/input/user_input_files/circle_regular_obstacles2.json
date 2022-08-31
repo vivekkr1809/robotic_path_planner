@@ -1,0 +1,29 @@
+{
+	"DomainInfo":{
+		"dim" : 2,
+		"shape_type": "circle",
+		"radius":5.0, "center": [1.5,2.0]
+		},
+
+	"OriginGoalInfo":{
+		"origin" : [-1,-1],
+		"goals":{
+			"goal_1":{"dim":2, "shape_type":"circle","radius":0.2, "center":[3, 4.5]}		
+			}
+		},
+
+	"ObstaclesInfo":{
+		"obstacle_1":{"dim":2, "shape_type": "circle", "radius":0.6, "center":[0.5,0.5]},
+		"obstacle_2":{"dim":2, "shape_type": "circle", "radius":0.6, "center":[1.5,3.5]},
+		"obstacle_3":{"dim":2, "shape_type": "circle", "radius":0.6, "center":[-1.5,0.5]},
+		"obstacle_4":{"dim":2, "shape_type": "rectangle", "lower_left": [4.0, 0.5],"upper_right": [5.0,3.0]}
+		},
+
+	"RRTAlgorithmInfo":{
+		"method": "rrt_star",
+		"n_trials": 1000,
+		"step_size": 0.2,
+		"dim": 2,
+		"neighborhood": 0.3
+		}
+}

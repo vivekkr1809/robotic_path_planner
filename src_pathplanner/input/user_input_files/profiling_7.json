@@ -1,0 +1,27 @@
+{
+	"DomainInfo":{
+		"dim" : 2,
+		"shape_type": "rectangle",
+		"lower_left": [-5.0,-5.0],
+		"upper_right": [5.0,5.0]
+		},
+
+	"OriginGoalInfo":{
+		"origin" : [-2.5,-2.5],
+		"goals":{
+			"goal_1":{"dim":2, "shape_type":"circle","radius":0.3, "center":[2.5, 2.5]}
+			}
+		},
+
+	"ObstaclesInfo":{
+		"obstacle_1":{"dim":2, "shape_type": "free_form", "bitmap_file":"./input/bitmap_files/seahorse.pbm",  "bb_lower_left":[-0.5,-0.5], "bb_upper_right":[0.5,0.5]}
+		},
+
+	"RRTAlgorithmInfo":{
+		"method": "rrt_basic",
+		"n_trials": 2000,
+		"step_size": 0.2,
+		"dim": 2,
+		"neighborhood": 0.3
+		}
+}

@@ -1,0 +1,17 @@
+\umlclass[x=\getvalue{Xcoord}, y=\getvalue{Ycoord},
+				\relstr,
+				anchor=\getvalue{aligninfo},
+				width = \getvalue{widthinfo}]				
+				{Solver}
+% Data
+{
++ vertex$\_$list: ndarray \\
++ parent$\_$list : int list \\
++ cost$\_$list : float list
+}
+% Methods
+{
++ \dunder{init}\dunder (ParamsRRT) \\
++ solve$\_$rrt (self, ParamsRRT) : void \\
++ check$\_$completion (self, Domain) : bool
+}

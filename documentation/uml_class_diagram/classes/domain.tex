@@ -1,0 +1,22 @@
+\umlclass[x=\getvalue{Xcoord}, y=\getvalue{Ycoord}
+				\relstr,
+				anchor = \getvalue{aligninfo},
+				width = \getvalue{widthinfo}]
+				{Domain}
+% Data
+{
++ dim: int \\
++ geometry : Shape \\
++ obstacles : list Obstacle\\
++ goals : list Goal\\
++ origin : Origin\\
++ extents : ndarray
+}
+% Methods
+{
++ \dunder{init}\dunder(ParamsDomain, \\
+   ParamsOriginGoal) \\
++ assemble$\_$domain(self)\\
++ check$\_$assembly(self)\\
++ calc$\_$extents(self)
+}

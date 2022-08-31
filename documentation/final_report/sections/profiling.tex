@@ -1,0 +1,167 @@
+\section{Code Profiling}
+A vanilla code profiling was performed to identify the bottle-neck functions or classes and improvements were incorporated where possible. An initial picture of the whole program is captured by timing various combination of domain, obstacles and path finding algorithm. To avoid coupling between various elements only one obstacle was used during the profiling process. Further, the output class was not included as it does not form the core of the software. The profiling was performed on a Ubuntu machine. In all these cases, the following parameters were kept constant:
+\begin{enumerate}
+\item The number of steps for which the program was run.
+\item The step size for the algorithms.
+\item Neighborhood size for the RRT* algorithm.
+\item The origin and goal was the same.
+\item The bounding box for each obstacle was the same.
+\end{enumerate}
+\begin{table}[H]
+\centering
+{\tabulinesep=2.0mm
+\begin{tabu}{c c c c}
+		\hline
+		Algorithm & Domain & Obstacle & Total time (s) \\
+		\hline
+		\multirow{4}{*}{Basic RRT} & Rectangle & Rectangle  &  45.7\\
+		& Rectangle & Circle  & 47.6\\
+		& Rectangle & Seahorse  & 398.3\\
+		& Rectangle & Force  & 62.2\\
+		\hline
+		\multirow{4}{*}{Basic RRT} & Circle & Rectangle  &  46.9\\
+		& Circle & Circle  & 46.2\\
+		& Circle & Seahorse  & 413.3\\
+		& Circle & Force  & 58.8\\
+		\hline
+		\multirow{4}{*}{RRT*} & Circle & Rectangle  &  48.2\\ 
+		& Circle & Circle  & 47.3\\
+		& Circle & Seahorse  & 869.5\\
+		& Circle & Force  & 77.4\\
+		\hline
+\end{tabu}
+}
+\caption{\label{tab:tot_time_original}Total time to run various combination of domain, obstacle and solution algorithm. Note: The total time is the average of 3 runs}
+\end{table}
+The results of the timing are shown in Table~\ref{tab:tot_time_original}. The following are the key takeaways:
+\begin{enumerate}
+\item There is no significant difference between the timing for circle or rectangle obstacles. This indicates that the efficiency of the analytical tests to check if a point is inside the shape or to check if the edge connecting two points intersect the shape are comparable.
+\item The free form shape implementation is comparably more computationally expensive than the geometric shapes.
+\end{enumerate}
+\subsection{Summary of Hotspots}
+The profiling of the was performed using \textit{cProfile}. The key functions identified for improvement are shown in Table~\ref{tab:functions_original}
+\begin{table}[H]
+\centering
+{\tabulinesep=2.0mm
+\begin{tabu}{c c}
+		\hline
+		Function & Total time spent(s) \\
+		\hline
+		vertex.py:61(find\_nearest\_vertex) & 21.0 \\
+		shape\_free\_form.py:91(is\_point\_inside) & 158.8 \\
+		\hline
+\end{tabu}
+}
+\caption{\label{tab:functions_original} Average total time spent in bottleneck functions for 2000 basic RRT steps. For free form the average time is that of the seahorse obstacle}
+\end{table}
+
+One common in these functions were the implementation of the for loops. So wherever possible, the for loops were replaced with slicing of the numpy array. The two functions were replaced as shown below.
+\begin{enumerate}
+\item The original code for Vertex.find\_nearest\_vertex()
+\begin{lstlisting}[language=python]
+def find_nearest_vertex(self,vertex_list,new_q):
+	dist_new = 0.0
+	shortest_distance = float('+inf') 
+	shortest_index = 0	
+	for i, vertex in enumerate(vertex_list):
+		if any(x == True for x in np.isnan(vertex)):
+			break 
+		else:
+			dist_new = np.linalg.norm(new_q - vertex)
+			if dist_new < shortest_distance:					
+				shortest_distance = dist_new
+				shortest_index = i		
+	return shortest_index, shortest_distance
+\end{lstlisting}
+The improved code
+\begin{lstlisting}[language=python]
+def find_nearest_vertex(self,vertex_list,new_q):
+	existing_vertex_list = vertex_list[~np.isnan(vertex_list).any(axis=1)]
+	dist_norm = np.linalg.norm(existing_vertex_list-new_q, axis = 1)
+	return np.argmin(dist_norm), dist_norm[np.argmin(dist_norm)]
+\end{lstlisting}
+
+\item The original code for free\_form.is\_point\_inside()
+\begin{lstlisting}[language=python]
+def is_point_inside(self, point):
+	if(point[0] < self.x_min_val or point[0] > self.x_max_val or point[1] < 
+		self.y_min_val or point[1] > self.y_max_val):
+		return False
+	else:
+		shape_points = self.all_points_array[self.all_points_array[:,1] < 
+			point[1]+2.1*self.hy]
+		shape_points = shape_points[shape_points[:,1] > point[1] -2.1*self.hy]
+		number_of_shape_points = shape_points.shape[0]
+		eps = 1.0e-1
+		test_radius = max(self.hx,self.hy)*(2.+_eps)
+		for shape_point in shape_points:
+			if(np.linalg.norm(point-shape_point) <= test_radius):
+			return True
+		return False
+\end{lstlisting}
+
+\begin{lstlisting}[language=python]
+def find_nearest_vertex(self,vertex_list,new_q):
+	if(point[0] < self.x_min_val or point[0] > self.x_max_val or point[1] < 
+		self.y_min_val or point[1] > self.y_max_val):
+		return False
+	else:
+		y_band = 2.1*self.hy
+		shape_points = self.all_points_array[self.all_points_array[:,1] < 
+			point[1]+y_band]
+		shape_points = shape_points[shape_points[:,1] > point[1] -y_band]
+		_eps = 1.0e-1
+		relative_distance_array = np.linalg.norm(shape_points-point, axis = 1)
+		test_radius = max(self.hx,self.hy)*(2.+_eps)
+		if(relative_distance_array[np.argmin(relative_distance_array)] < 
+			test_radius):
+			return True
+		return False
+\end{lstlisting}
+\end{enumerate}
+
+\subsection{Summary of Improvements}	
+The above changes were sufficient to reduce the total time of the run drastically as shown in Table~\ref{tab:tot_time_improved}.
+\begin{table}[H]
+\centering
+{\tabulinesep=2.0mm
+\begin{tabu}{c c c c}
+		\hline
+		Algorithm & Domain & Obstacle & Total time (s) \\
+		\hline
+		\multirow{4}{*}{Basic RRT} & Rectangle & Rectangle  & 1.3 \\
+		& Rectangle & Circle  & 1.3\\
+		& Rectangle & Seahorse  & 115.4\\
+		& Rectangle & Force  & 3.9\\
+		\hline
+		\multirow{4}{*}{Basic RRT} & Circle & Rectangle  &  1.2\\
+		& Circle & Circle  & 1.2\\
+		& Circle & Seahorse  & 164.9\\
+		& Circle & Force  & 4.6\\
+		\hline
+		\multirow{4}{*}{RRT*} & Circle & Rectangle  &  2.2\\ 
+		& Circle & Circle  & 2.2\\
+		& Circle & Seahorse  & 466.6\\
+		& Circle & Force  & 8.7\\
+		\hline
+\end{tabu}
+}
+\caption{\label{tab:tot_time_improved}Total time to run various combination of domain, obstacle and solution algorithm after improvements. Note: The total time is the average of 3 runs}
+\end{table}
+
+The corresponding time for the changed functions are shown in Table~\ref{tab:functions_improved}
+\begin{table}[H]
+\centering
+{\tabulinesep=2.0mm
+\begin{tabu}{c c}
+		\hline
+		Function & Total time spent(s) \\
+		\hline
+		vertex.py:61(find\_nearest\_vertex) & 0.1 \\
+		shape\_free\_form.py:91(is\_point\_inside) & 112.3 \\
+		\hline
+\end{tabu}
+}
+\caption{\label{tab:functions_improved} Average total time spent in bottleneck functions for 2000 basic RRT steps. For free form the average time is that of the seahorse obstacle}
+\end{table}
+The key lesson learned through this exercise is to avoid for loops when dealing with {\ttfamily numpy} arrays and use slicing instead.

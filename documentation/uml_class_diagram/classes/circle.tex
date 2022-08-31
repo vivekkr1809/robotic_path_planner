@@ -1,0 +1,18 @@
+\umlclass[x=\getvalue{Xcoord}, y=\getvalue{Ycoord},
+				\relstr,
+				anchor = \getvalue{aligninfo},
+				width = \getvalue{widthinfo}]
+				{Circle}
+% Data
+{
++ dim: 2 \\
++ shape$\_$name: string \\
++ radius: double \\
++ center: Point 
+}
+% Methods
+{
++ \dunder{init}\dunder(radius, center) \\
++ inside(pt) : bool\\
++ intersects(pt1, pt2) : bool
+}

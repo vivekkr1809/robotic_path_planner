@@ -1,0 +1,38 @@
+{
+	"DomainInfo":{
+		"dim" : 2,
+		"shape_type": "circle",
+		"radius": 5,
+		"center": [0.0,0.0]
+		},
+
+	"OriginGoalInfo":{
+		"origin" : [0.1,0.1],
+		"goals":{
+			"goal_1":{"dim":2, "shape_type": "free_form",
+				"bitmap_file":"./input/bitmap_files/seahorse.pbm",
+				"bb_lower_left":[-1.0,3.0], "bb_upper_right":[-0.5,4.0]},
+			"goal_2":{"dim":2, "shape_type":"circle", "radius":0.1, "center":[2.5, 3.5]},
+			"goal_3":{"dim":2, "shape_type":"rectangle", "lower_left": [-3.2, -2.0],"upper_right": [-2.8,-1.8]},
+			"goal_4":{"dim":2, "shape_type":"circle", "radius":0.1, "center":[3.0, -3.0]}			
+			}
+		},
+
+	"ObstaclesInfo":{
+		"obstacle_1":{"dim":2, "shape_type": "circle", "radius":0.5, "center":[-3.0,-0.5]},
+		"obstacle_2":{"dim":2, "shape_type": "circle", "radius":0.6, "center":[2.0,-2.0]},
+		"obstacle_3":{"dim":2, "shape_type": "circle", "radius":0.4, "center":[1.5,0.5]},
+		"obstacle_4":{"dim":2, "shape_type": "rectangle", "lower_left": [2.0, 1.5],"upper_right": [2.5,3.0]},
+		"obstacle_5":{"dim":2, "shape_type": "free_form", 
+			"bitmap_file":"./input/bitmap_files/obstacle.pbm", 
+			"bb_lower_left":[-2.0,0.0], "bb_upper_right":[0.0,2.0]}		
+		},
+
+	"RRTAlgorithmInfo":{
+		"method": "rrt_star",
+		"n_trials": 5000,
+		"step_size": 0.2,
+		"dim": 2,
+		"neighborhood": 0.3
+		}
+}

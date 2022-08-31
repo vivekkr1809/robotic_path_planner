@@ -1,0 +1,34 @@
+{
+	"DomainInfo":{
+		"dim" : 2,
+		"shape_type": "rectangle",
+		"lower_left": [0.0, 0.0],
+		"upper_right": [3.0,4.0]
+		},
+
+	"OriginGoalInfo":{
+		"origin" : [0.1,0.1],
+		"goals":{
+			"goal_1":{"dim":2, "shape_type": "free_form",
+				"bitmap_file":"./input/bitmap_files/seahorse.pbm",
+				"bb_lower_left":[1.0,2.0], "bb_upper_right":[1.5,3.0]},
+			"goal_2":{"dim":2, "shape_type":"circle", "radius":0.1, "center":[2.5, 3.5]}		
+			}
+		},
+
+	"ObstaclesInfo":{
+		"obstacle_1":{"dim":2, "shape_type": "circle", "radius":0.25, "center":[2.0,0.5]},
+		"obstacle_2":{"dim":2, "shape_type": "rectangle", "lower_left": [2.0, 1.5],"upper_right": [2.5,3.0]},
+		"obstacle_3":{"dim":2, "shape_type": "free_form", 
+			"bitmap_file":"./input/bitmap_files/obstacle.pbm", 
+			"bb_lower_left":[0.25,0.5], "bb_upper_right":[1.25,1.5]}		
+		},
+
+	"RRTAlgorithmInfo":{
+		"method": "rrt_basic",
+		"n_trials": 250,
+		"step_size": 0.5,
+		"dim": 2,
+		"neighborhood": 0.6
+		}
+}

@@ -1,0 +1,99 @@
+\documentclass[10pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\setlength{\parskip}{\baselineskip}%
+\setlength{\parindent}{0pt}%
+
+\title{APC524 Final Project Design Document}
+% Name
+\author{Bruun, E. \and Flores, J. \and Kumar, V.}
+
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+	\subsection{Scientific Background}
+		Rapidly-exploring random trees (RRTs) are a class of algorithms used in autonomous robotic motion planning to efficiently calculate a path through a large unsearched domain. This domain can either represent a physical space (i.e. 2D or 3D Euclidean space), or a higher-dimensional robotic state space. The algorithm generates trajectories through the domain, and can easily handle multiple obstacles, goals, or other differential constraints that are applicable to a robotic motion planning problem.
+		
+		The RRT works by growing a search tree incrementally from random samples drawn from the domain, and is therefore biased to grow into unsearched areas. As a new sample is drawn, the algorithm attempts to connect it to the nearest point in the existing solution-path tree. If the connection is possible (i.e. does not collide with an obstacle, or is otherwise infeasible from a kinematic perspective) then a new graph edge is made and the next iteration begins.
+		
+		The Basic RRT algorithm was first proposed by Lavalle and Kuffner in 1998. While its development was a paradigm shift in the field of robotic motion planning (RRTs were significantly more efficient than the existing path planning methods), the main drawback of the Basic RRT is that it almost surely converges to a non-optimal value. Since the proposal of the Basic RRT, developing new algorithms modifying its underlying principles has been an active area of research. The most significant leap forward was the development of the RRT* (RRT Star) algorithm by Frazzoli in 2010, which is a variant of the Basic RRT that guarantees convergence to the optimal solution.
+
+	\subsection{Motivation}
+		The goal of this project is to develop a modular and scalable program that implements a variety of path-planning algorithms to search through a physical domain space populated with obstacles. The ultimate motivation for this work is to assess the relative efficiency and performance of a large set of different algorithms acting in various domains. Therefore, the program is developed in such a way that both the definition of the domain space, and the solution procedure is extensible in the future. 
+
+
+\newpage
+\section{Desired Code Functionality}
+
+	The essential core functions of the code are the following:
+	
+	\begin{enumerate}
+		\item Parse a file of user-specified inputs that define the domain and algorithm parameters.
+		\begin{enumerate}
+			\item Obstacles can be defined as regular shapes (circle/rectangle).
+			\item Obstacles can be defined as freeform shapes input as bitmaps.
+			\item Goals can be defined as as regular shapes (circle/rectangle).
+			\item Goals can be defined as as freeform shapes input as bitmaps.
+			\item Domain can be defined as as regular shapes (circle/rectangle).
+		\end{enumerate}	
+		\item Execute the path-planning algorithm specified by the user on the constructed domain.
+		\begin{enumerate}
+				\item The algorithm must be able to find the solution to multiple goals in one domain.
+				\item The following algorithms can be used: Basic RRT, RRT Star.
+		\end{enumerate}		
+		\item Output a plot of the solution.
+	\end{enumerate}
+
+	Additional features if time-permitting:
+	\begin{enumerate}
+		\item Allow the domain itself to be defined as a freeform shape.
+		\item Include additional RRT-type algorithms for the user to choose from.
+		\item Allow the definition of a 3D search space (define domain, obstacles, goals as volumes rather than areas)
+		\item Output an animation of the tree growing through each iteration.
+	\end{enumerate}
+
+	Currently only the Basic RRT and the RRT* algorithms are implemented. But examining the difference between these two algorithms is an adequate starting point for showing the difference between a random search method and one that approaches optimality.
+
+	Currently only a 2D physical domain space has been implemented, so all the objects in the domain are areas rather than volumes. Also, the domain itself can only be a regular shape (circle or rectangle).
+
+	Currently only bitmap (.pbm) shapes can be used to define any freeform obstacles or goals to be placed inside the domain.
+	
+	The code has been written in a sufficiently modular way so that the solution space can easily extended to 3-dimensions in the future. The variable "dims" is currently set to 2 in the user-input. With future extension in mind, this variable is referenced throughout the solver/algorithm code. Once the input/domain code is changed to assemble a 3d domain, the algorithm code can easily be adjusted to match.
+
+\section{External Libraries}
+While most of the code would core python modules, the generation of free form shapes uses a third party software \href{https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_setup/py_intro/py_intro.html}{\ttfamily OpenCV}. It is widely used for computer vision applications and in the project it was used to read the bitmap images. The bitmap images are used to obtain a {\ttfamily numpy} array of coordinates by assuming a constant pixel size and, hence, a constant center to center spacing between them.
+\newpage
+\section{UML Diagram}
+	The UML diagram can be found as a separate file in the documentation folder. Please refer to that file for this section and any following discussion referencing the class structure.
+
+	The submitted UML diagram is based on the team's preliminary brainstorming about the functionality of the code. While specific functions and interactions within classes of the program have changed as the code was written, the overall structure and hierarchy remains the same. The goal was to have a domain object constructed and then passed to a solver object, which executes a solution algorithm to find a feasible path from the origin to goals.
+
+\section{Class Explanation}
+
+	The program is organized around the following grouping of classes:
+	
+	\begin{enumerate}
+		\item Input
+		\item Domain 
+		\item Solver
+		\item Algorithm
+		\item Output
+	\end{enumerate}	
+
+	Input: This class performs the task of parsing the user input .json file into a data dictionary.
+	
+	Domain: These classes create the components required to define a domain, and assemble them into a single object that is passed to the solver class. Origin, goal, and obstacle objects are all created based on the parsed data. Obstacles and goals are created as shape objects based on the Circle, Rectangle, Freeform classes. The domain itself is created as either a Circle or Rectangle object.
+	
+	Solver: The central processing location for the program. Creates a set of empty containers that will record the data created during the execution of the algorithm. This class takes a domain object and then calls single iterations of the selected algorithm to act on it. Once all the iterations are complete it post-processes the data to find the lowest distance path from the origin to the goals (if such a path exists).
+	
+	Algorithm: These classes define the different path-planning algorithms that can be called by the solver class to act on the defined domain. They are currently all based on an abstract class that contains the basic functions required of an RRT algorithm. The RRT Basic and Star versions are then expanded as concrete classes with further individual functionality. This inheritance structure allows for future extension to the program, as new modified RRT algorithms can be easily added by subclassing any of the existing algorithms.
+	
+	Output: Takes the domain object, along with the raw and post-processed data from the solver class, and plots it. The plot shows the full solution tree, and the shortest path (if one is found). The solution can also be animated as the generation of trials is saved sequentially in the raw data.
+	
+	
+	
+\end{document}

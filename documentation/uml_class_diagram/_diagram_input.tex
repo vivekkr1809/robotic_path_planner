@@ -1,0 +1,30 @@
+%% Input and Parameter Classes %%
+
+%Parameters (ABSTRACT)
+\setvalue{Xcoord=16.}
+\setvalue{Ycoord=2.}
+\setvalue{aligninfo=north}
+\setvalue{widthinfo=6cm}
+\renewcommand{\relstr}{}
+\input{./classes/params.tex}	
+
+%Domain Parameters
+\setvalue{aligninfo=north}
+\setvalue{widthinfo=5cm}
+\renewcommand{\relstr}{below right= 0cm and 9cm of Params.north}
+\input{./classes/params_domain.tex}	
+\umlinherit[anchors= 180 and 0, geometry=-|-]{ParamsDomain}{Params}
+
+%Origin/Goal Parameters
+\setvalue{aligninfo=north}
+\setvalue{widthinfo=5cm}
+\renewcommand{\relstr}{below right=3cm and 9cm of Params.north}
+\input{./classes/params_origingoal.tex}	
+\umlinherit[anchors= 180 and 0, geometry=-|-]{ParamsOriginGoal}{Params}
+
+%RRT Parameters
+\setvalue{aligninfo=north}
+\setvalue{widthinfo=5cm}
+\renewcommand{\relstr}{below right=6cm and 9cm of Params.north}
+\input{./classes/params_rrt.tex}	
+\umlinherit[anchors= 180 and 0, geometry=-|-]{ParamsRRT}{Params}
